@@ -8,6 +8,8 @@
   },
   "author": "Danilo Scavassa <dan.scavassa@gmail.com>",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "consign": "^0.1.6",
     "express": "^4.16.3",
     "sequelize": "^4.37.8",
     "sqlite3": "^4.0.0"
