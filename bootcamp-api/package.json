@@ -1,0 +1,16 @@
+{
+  "name": "bootcamp-api",
+  "version": "0.0.1",
+  "description": "Api de gestão de tarefas",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon"
+  },
+  "author": "Danilo Scavassa <dan.scavassa@gmail.com>",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.4"
+  }
+}
