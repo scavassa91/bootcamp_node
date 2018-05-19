@@ -1,3 +1,6 @@
+const { body, validationResult } = require("express-validator/check");
+const { matchedData } = require("express-validator/filter");
+
 module.exports = app => {
     const Tasks = app.db.models.Tasks;
 
@@ -11,8 +14,18 @@ module.exports = app => {
                 res.status(500).json({ msg: error.message });
             });
         })
-        .post((req, res) => {
-            Tasks.create(req.body)
+        .post([
+            // Validate body
+            body("title", "Required field").exists(),
+            body("title", "Invalid length").trim().isLength({ "min": 1, "max": 255 })
+        ],(req, res) => {
+            // Delete every thing that i didn't validate
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ "errors": errors.array() });
+            }
+
+            Tasks.create(matchedData(req))
             .then(result => {
                 res.json(result);
             })
@@ -31,8 +44,18 @@ module.exports = app => {
                 res.status(500).json({ msg: error.message });
             });
         })
-        .put((req, res) => {
-            Tasks.update(req.body, {
+        .put([
+            body("title", "Required field").exists(),
+            body("title", "Invalid length").trim().isLength({ "min": 1, "max": 255 }),
+            body("done", "Required field").exists(),
+            body("done", "Not a boolean").isBoolean()
+        ],(req, res) => {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ "errors": errors.array() });
+            }
+
+            Tasks.update(matchedData(req), {
                 "where": {
                     "id": req.params.id
                 }
