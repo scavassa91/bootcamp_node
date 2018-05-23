@@ -13,8 +13,14 @@ module.exports = app => {
     const strategy = new Strategy(params, 
         async (payload, done) => {
             try {
+                console.log(params);
+                console.log(payload);
+                
                 // Wait until async is finished
                 const user = await Users.findById(payload.id);
+
+                console.log(user);
+                
 
                 if (user) {
                     return done(null, {
@@ -35,7 +41,7 @@ module.exports = app => {
             "initialize": () => {
                 return passport.initialize();
             },
-            "euthenticate": () => {
+            "authenticate": () => {
                 return passport.authenticate("jwt", config.jwtSession);
             }
         }

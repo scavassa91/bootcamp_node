@@ -5,7 +5,7 @@ module.exports = app => {
     const Tasks = app.db.models.Tasks;
 
     app.route("/tasks")
-        .all(app.auth.euthenticate())
+        .all(app.auth.authenticate())
         .get((req, res) => {
             Tasks.findAll({
                 where: {
@@ -43,9 +43,11 @@ module.exports = app => {
         });
 
     app.route("/tasks/:id")
-        .all(app.auth.euthenticate())
+        .all(app.auth.authenticate())
         .get((req, res) => {
-            Tasks.findById({
+            console.log(req);
+            
+            Tasks.findOne({
                 where: {
                     "id": req.params.id,
                     "user_id": req.user.id

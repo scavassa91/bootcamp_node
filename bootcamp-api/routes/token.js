@@ -13,15 +13,19 @@ module.exports = app => {
             }
         });
 
+        const payload = {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        };
+
         if (user) {
             if (Users.isPassword(user.password, req.body.password)) {
-                const payload = {
-                    "email": req.body.email
-                };
-                
                 res.json({
-                    "token": jwt.encode(payload.email, config.jwtSecret)
+                    "token": jwt.encode(payload, config.jwtSecret)
                 });
+            } else {
+                res.sendStatus(401);
             }
         }
     });
